@@ -15,15 +15,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Auth::routes();
-//
-//Route::get('/home', 'HomeController@index')->name('home');
+/************* 公共路由 **************/
+/*Route::post('upload','UploadController@store');*/
+
 
 Route::get('admin/login','Admin\LoginController@showLoginForm');
 Route::get('admin/logout','Admin\LoginController@logout');
 Route::post('admin/login','Admin\LoginController@LoginIng');
 
+
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['web', 'auth:admin']], function () {
     Route::get('/','IndexController@index');
     Route::get('welcome','IndexController@welcome');
+    Route::post('member/photo','MemberController@photo_upload');
+    Route::resource('member','MemberController');
 });

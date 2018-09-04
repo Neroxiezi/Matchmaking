@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: 运营部
- * Date: 2018/9/3
- * Time: 15:39
+ * Date: 2018/9/4
+ * Time: 11:44
  *
  *
  *                      _ooOoo_
@@ -28,8 +28,11 @@
  *           佛祖保佑       永无BUG     永不修改
  *
  */
-return [
-    'SUCCESS'=>200,
-    'ERROR' =>405,
 
-];
+namespace App\Helpers;
+
+
+trait Upload
+{
+
+}

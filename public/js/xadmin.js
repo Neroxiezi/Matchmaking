@@ -181,7 +181,7 @@ function x_admin_show(title,url,w,h){
     };
     layer.open({
         type: 2,
-        area: [w+'px', h +'px'],
+        area: [w,h],
         fix: false, //不固定
         maxmin: true,
         shadeClose: true,
