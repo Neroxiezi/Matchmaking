@@ -32,7 +32,59 @@
 namespace App\Helpers;
 
 
+use Illuminate\Http\Request;
+
 trait Upload
 {
+    public function upload_local(Request $request, $key = '', $prefix = 'uploads')
+    {
+        if (empty($key)) {
+            return [
+                'ret' => 10010,
+                'msg' => '上传文件key为空！'
+            ];
+        }
 
+        if (!$request->isMethod('POST')) {
+            return [
+                'ret' => 10011,
+                'msg' => '上传方式不对！'
+            ];
+        }
+        $file = $request->file($key);
+        /**
+         * 判断文件是否上传成功
+         */
+        if (!$file->isValid()) {
+            return [
+                'ret' => 10012,
+                'msg' => '上传失败！'
+            ];
+        }
+        $file_ext = $file->getClientOriginalExtension();
+        $path = $this->_makePath($prefix);
+        $dstPath = public_path($path);
+        if (!file_exists($dstPath)) mkdir($dstPath, 0755, true);
+        $filename = uniqid() . mt_rand(10000, 99999) . '.' . $file_ext;
+        $originFilename = $file->getPathname();
+        if (!move_uploaded_file($originFilename, $dstPath . '/' . $filename)) {
+            return [
+                'ret' => 10014,
+                'msg' => '保存文件失败！'
+            ];
+        }
+        return [
+            'ret' => 200,
+            'msg' => '文件上传',
+            'data' => [
+                'url' => '/' . $path . '/' . $filename
+            ]
+        ];
+    }
+
+    private function _makePath($prefix)
+    {
+        $path = date('Y/m/d/H');
+        return strlen($prefix) > 0 ? $prefix . '/' . $path : $path;
+    }
 }
