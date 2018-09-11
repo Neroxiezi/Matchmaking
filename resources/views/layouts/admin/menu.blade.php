@@ -20,6 +20,12 @@
                         <cite>标签管理</cite>
                     </a>
                 </li >
+                <li>
+                    <a _href="{{url('admin/tag')}}">
+                        <i class="iconfont">&#xe6a7;</i>
+                        <cite>课程管理</cite>
+                    </a>
+                </li >
             </ul>
         </li>
     </ul>
