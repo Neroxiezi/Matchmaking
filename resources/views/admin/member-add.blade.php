@@ -106,11 +106,12 @@
             //自定义验证规则
             form.verify({
                 name: function (value) {
-                    if (value.length < 5) {
-                        return '昵称至少得5个字符啊';
+                    if (value.length < 2) {
+                        return '用户名至少得2个字符啊';
                     }
                 }
                 , nikename: function (value) {
+                    console.log(value)
                     if (value.length < 5) {
                         return '昵称至少得5个字符啊';
                     }
