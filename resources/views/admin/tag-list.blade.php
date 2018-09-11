@@ -40,6 +40,10 @@
                         <td>{{$item->id}}</td>
                         <td>{{$item->name}}</td>
                         <td>{{$item->created_at}}</td>
+                        <td>
+                            <a href="">编辑</a>
+                            <a href="">删除</a>
+                        </td>
                     </tr>
                 @endforeach
             @endif
