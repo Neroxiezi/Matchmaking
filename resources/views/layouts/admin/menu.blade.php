@@ -21,7 +21,7 @@
                     </a>
                 </li >
                 <li>
-                    <a _href="{{url('admin/tag')}}">
+                    <a _href="{{url('admin/course')}}">
                         <i class="iconfont">&#xe6a7;</i>
                         <cite>课程管理</cite>
                     </a>
