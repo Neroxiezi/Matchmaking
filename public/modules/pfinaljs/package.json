@@ -1,0 +1,46 @@
+{
+  "_from": "pfinaljs",
+  "_id": "pfinaljs@0.0.1",
+  "_inBundle": false,
+  "_integrity": "sha512-/ZSA7xYE96E+tJUxfKoPXxY5Dx0xuuYQV4hHNowe+yNLB77cQuL3wzOlY5fm8VksZvUsgM7aldD4uXR+hZ3vmA==",
+  "_location": "/pfinaljs",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "pfinaljs",
+    "name": "pfinaljs",
+    "escapedName": "pfinaljs",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/pfinaljs/-/pfinaljs-0.0.1.tgz",
+  "_shasum": "9b3d74834928ea6d40025ced2cc497e29caea60d",
+  "_spec": "pfinaljs",
+  "_where": "D:\\phpStudy\\WWW\\matchmaking",
+  "author": {
+    "name": "南丞"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "pfinaljs 是一个优秀的前端组件化框架，可以在浏览器中直接使用amd 调用。",
+  "directories": {
+    "test": "test"
+  },
+  "license": "ISC",
+  "main": "pfinaljs.js",
+  "name": "pfinaljs",
+  "repository": {
+    "type": "git",
+    "url": "https://git.coding.net/nero_xj/pfinaljs.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.0.1"
+}
