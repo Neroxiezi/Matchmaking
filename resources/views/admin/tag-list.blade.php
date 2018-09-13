@@ -41,7 +41,7 @@
                         <td>{{$item->name}}</td>
                         <td>{{$item->created_at}}</td>
                         <td>
-                            <a href="">编辑</a>
+                            <a onclick="edit_tag(this,'{{$item->id}}')"><i class="fa fa-adjust"></i> 编辑</a>
                             <a href="">删除</a>
                         </td>
                     </tr>
@@ -50,4 +50,18 @@
             </tbody>
         </table>
     </div>
+    <script>
+        var layer;
+        layui.use('layer', function() {
+                layer = layui.layer;;
+
+        })
+        function edit_tag(obj, id) {
+            layer.open({
+                type:1,
+                title:'编辑标签',
+                content:'123'
+            });
+        }
+    </script>
 @endsection
