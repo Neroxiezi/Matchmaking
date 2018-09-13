@@ -3,9 +3,9 @@
     <div class="x-nav">
       <span class="layui-breadcrumb">
         <a href="{{url('admin')}}">首页</a>
-        <a href="{{url('admin/tag')}}">标签管理</a>
+        <a href="{{url('admin/course')}}">课程管理</a>
         <a>
-          <cite>标签列表</cite></a>
+          <cite>课程列表</cite></a>
       </span>
         <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
            href="javascript:location.replace(location.href);" title="刷新">
@@ -34,20 +34,20 @@
             </tr>
             </thead>
             <tbody>
-            @if(count($tag_list)>0)
-                @foreach($tag_list as $item)
-                    <tr>
-                        <td>{{$item->id}}</td>
-                        <td>{{$item->name}}</td>
-                        <td>{{$item->created_at}}</td>
-                        <td>
-                            <a onclick="x_admin_show('编辑标签','{{url('admin/tag/'.$item->id.'/edit')}}','60%','30%')"><i
-                                        class="fa fa-adjust"></i> 编辑</a>
-                            <a onclick="tag_del(this,'{{$item->id}}')">删除</a>
-                        </td>
-                    </tr>
-                @endforeach
-            @endif
+            {{--@if(count($tag_list)>0)--}}
+                {{--@foreach($tag_list as $item)--}}
+                    {{--<tr>--}}
+                        {{--<td>{{$item->id}}</td>--}}
+                        {{--<td>{{$item->name}}</td>--}}
+                        {{--<td>{{$item->created_at}}</td>--}}
+                        {{--<td>--}}
+                            {{--<a onclick="x_admin_show('编辑标签','{{url('admin/tag/'.$item->id.'/edit')}}','60%','30%')"><i--}}
+                                        {{--class="fa fa-adjust"></i> 编辑</a>--}}
+                            {{--<a onclick="tag_del(this,'{{$item->id}}')">删除</a>--}}
+                        {{--</td>--}}
+                    {{--</tr>--}}
+                {{--@endforeach--}}
+            {{--@endif--}}
             </tbody>
         </table>
     </div>

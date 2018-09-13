@@ -6,7 +6,7 @@ use App\Http\Requests\TagRequest;
 use App\Model\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use function Sodium\add;
+use Illuminate\Support\Facades\Validator;
 
 class TagController extends Controller
 {
@@ -19,7 +19,7 @@ class TagController extends Controller
     public function index()
     {
         $tag_list = Tag::all();
-        return view('admin.tag-list',compact('tag_list'));
+        return view('admin.tag-list', compact('tag_list'));
     }
 
     /**
@@ -38,9 +38,9 @@ class TagController extends Controller
         $param['name'] = $tagRequest->input('name');
         $res = Tag::create($param);
         if ($res) {
-           return response()->json(['code'=>200,'msg'=>'添加成功']);
+            return response()->json(['code' => 200, 'msg' => '添加成功']);
         }
-        return response()->json(['code'=>405,'msg'=>'添加收纳']);
+        return response()->json(['code' => 405, 'msg' => '添加收纳']);
     }
 
     /**
@@ -54,37 +54,33 @@ class TagController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+    public function edit(Tag $tag)
     {
-        //
+        //dd($tag);
+        return view('admin.tag-edit', compact('tag'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, Tag $tag)
     {
-        //
+        $validate = Validator::make($request->all(), ['name' => 'required'], ['name.required' => '标签名称必须']);
+        if ($validate->fails()) {
+            return response()->json(['code' => 405, 'msg' => $validate->fails()]);
+        }
+        $tag->name = $request->input('name');
+        $res = $tag->save();
+        if ($res) {
+            return response()->json(['code' => 200, 'msg' => '修改成功']);
+        }
+        return response()->json(['code' => 405, 'msg' => '修改失败']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Tag $tag)
     {
-        //
+        $res = $tag->delete();
+        if ($res) {
+            return response()->json(['code' => 200, 'msg' => '删除成功']);
+        }
+        return response()->json(['code' => 405, 'msg' => '删除失败']);
     }
 }
