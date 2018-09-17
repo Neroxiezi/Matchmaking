@@ -2,25 +2,28 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CourseController extends Controller
 {
+    protected $tag;
+    public  function __construct(Tag $tag)
+    {
+        $this->tag = $tag;
+    }
 
     public function index()
     {
         return view('admin.course-list');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        $tag_list = $this->tag->get();
+        return view('admin.course-add',compact('tag_list'));
     }
 
     /**
