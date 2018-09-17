@@ -30,5 +30,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['web
     Route::post('member/photo','MemberController@photo_upload');
     Route::resource('member','MemberController');
     Route::resource('tag','TagController');
+    Route::post('course/img','MemberController@photo_upload');
+    Route::post('course/video','MemberController@video_upload');
     Route::resource('course','CourseController');
 });

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\BasicsTrait;
+use App\Helpers\Upload;
 use App\Model\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CourseController extends Controller
 {
+    use Upload;
+    use BasicsTrait;
     protected $tag;
     public  function __construct(Tag $tag)
     {
@@ -16,6 +20,7 @@ class CourseController extends Controller
 
     public function index()
     {
+        //echo public_path() . DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR . "video";exit;
         return view('admin.course-list');
     }
 
@@ -80,5 +85,10 @@ class CourseController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function photo_upload(Request $request)
+    {
+        $data = $this->upload_local($request, 'file', 'uploads/course');
+        return $data;
     }
 }
