@@ -87,4 +87,37 @@ trait Upload
         $path = date('Y/m/d/H');
         return strlen($prefix) > 0 ? $prefix . '/' . $path : $path;
     }
+
+    public function upload_section(Request $request, $prefix = './uploads')
+    {
+        $findex = $request->input('index');
+        $ftotal = $request->input('total');
+        $fdata = $_FILES['data'];
+        $fname = mb_convert_encoding($request->input('name'), "gbk", "utf-8");
+        $path = $prefix;
+        $dir = $path . "/video/";
+        $save = $dir . $fname;
+        if (!file_exists(asset($dir))) {
+            mkdir(asset($dir), 0777, true);
+            //chmod(asset($dir), 0777);
+        }
+        $temp = fopen($fdata["tmp_name"], "r+");
+        $filedata = fread($temp, filesize($fdata["tmp_name"]));
+        if (file_exists($dir . "/" . $findex . ".tmp")) unlink($dir . "/" . $findex . ".tmp");
+        $tempFile = fopen($dir . "/" . $findex . ".tmp", "w+");
+        fwrite($tempFile, $filedata);
+        fclose($tempFile);
+        fclose($temp);
+        if (file_exists($save)) @unlink($save);
+        for ($i = 1; $i <= $ftotal; $i++) {
+            $readData = @fopen($dir . "/" . $i . ".tmp", "r+");
+            $writeData = @fread($readData, filesize($dir . "/" . $i . ".tmp"));
+            $newFile = @fopen($save, "a+");
+            if ($newFile) fwrite($newFile, $writeData);
+            if ($newFile) fclose($newFile);
+            if ($readData) fclose($readData);
+            @unlink($dir . "/" . $i . ".tmp");
+        }
+        return array("status" => "success", "url" => mb_convert_encoding($save, 'utf-8', 'gbk'));
+    }
 }
