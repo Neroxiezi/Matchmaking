@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'HomeController@index');
+Route::get('video/{course}', 'HomeController@course_info');
 
 /************* 公共路由 **************/
 Route::get('admin/login','Admin\LoginController@showLoginForm');

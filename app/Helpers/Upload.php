@@ -88,8 +88,14 @@ trait Upload
         return strlen($prefix) > 0 ? $prefix . '/' . $path : $path;
     }
 
-    public function upload_section(Request $request, $prefix = './uploads')
+    public function upload_section(Request $request, $prefix = '/uploads')
     {
+        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+        header("Cache-Control: no-store, no-cache, must-revalidate");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+
         $findex = $request->input('index');
         $ftotal = $request->input('total');
         $fdata = $_FILES['data'];
@@ -97,26 +103,31 @@ trait Upload
         $path = $prefix;
         $dir = $path . "/video/";
         $save = $dir . $fname;
-        if (!file_exists(asset($dir))) {
-            mkdir(asset($dir), 0777, true);
-            //chmod(asset($dir), 0777);
+        if (!file_exists(public_path($dir))) {
+            mkdir(public_path($dir), 0777, true);
         }
         $temp = fopen($fdata["tmp_name"], "r+");
         $filedata = fread($temp, filesize($fdata["tmp_name"]));
-        if (file_exists($dir . "/" . $findex . ".tmp")) unlink($dir . "/" . $findex . ".tmp");
-        $tempFile = fopen($dir . "/" . $findex . ".tmp", "w+");
+        if (file_exists(public_path($dir . "/" . $findex . ".tmp"))) unlink(public_path($dir . "/" . $findex . ".tmp"));
+        $tempFile = fopen(public_path($dir . "/" . $findex . ".tmp"), "w+");
+        //var_dump($tempFile);
         fwrite($tempFile, $filedata);
         fclose($tempFile);
         fclose($temp);
-        if (file_exists($save)) @unlink($save);
-        for ($i = 1; $i <= $ftotal; $i++) {
-            $readData = @fopen($dir . "/" . $i . ".tmp", "r+");
-            $writeData = @fread($readData, filesize($dir . "/" . $i . ".tmp"));
-            $newFile = @fopen($save, "a+");
-            if ($newFile) fwrite($newFile, $writeData);
-            if ($newFile) fclose($newFile);
-            if ($readData) fclose($readData);
-            @unlink($dir . "/" . $i . ".tmp");
+
+        @set_time_limit(5 * 60);
+
+        //if (file_exists($save)) @unlink($save);
+        for($i=1;$i<=$ftotal;$i++)
+        {
+            $readData = @fopen(public_path($dir."/".$i.".tmp"),"r+");
+            $writeData = @fread($readData,filesize(public_path($dir."/".$i.".tmp")));
+            //var_dump($writeData);
+            $newFile = @fopen(public_path($save),"a+");
+            fwrite($newFile,$writeData);
+            if($newFile) fclose($newFile);
+            if($readData) fclose($readData);
+            @unlink(public_path($dir."/".$i.".tmp"));
         }
         return array("status" => "success", "url" => mb_convert_encoding($save, 'utf-8', 'gbk'));
     }

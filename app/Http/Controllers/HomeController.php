@@ -9,6 +9,7 @@ class HomeController extends Controller
 {
 
     protected $course;
+
     public function __construct(Course $course)
     {
         $this->course = $course;
@@ -16,6 +17,14 @@ class HomeController extends Controller
 
     public function index()
     {
-        return view('home');
+        $video_list = $this->course->paginate(15);
+        return view('home', compact('video_list'));
+    }
+
+    public function course_info(Course $course)
+    {
+        $course->img = url($course->img);
+        //$course->video = url(trim($course->video,'.'));
+        return view('video',compact('course'));
     }
 }

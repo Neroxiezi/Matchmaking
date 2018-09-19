@@ -1,60 +1,178 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# 一个简单的视频网站
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+---
+Author: Lampxiezi@163.com
+Create_time: 2018/9/19
 
-## About Laravel
+### 前端
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+pfinaljs 一款简单的 前端UI
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 后端
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+Laravel5.5 + Mysql
 
-## Learning Laravel
+### 截图
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+- 首页:
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+![](/public/images/index.png)
 
-## Laravel Sponsors
+- 视频页:
+![](/public/images/shiping.png)
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+- 播放器:
+![](/public/images/video.png)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
+*播放器代码:*
 
-## Contributing
+```html
+<!DOCTYPE html>
+<html lang="en">
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        window.pfinaljs = {};
+        window.pfinaljs.base = '../';
+    </script>
+    <script src="../require.js"></script>
+    <script src="../config.js"></script>
+</head>
 
-## Security Vulnerabilities
+<body style="padding: 50px;">
+    <video id="my-video" class="video-js vjs-big-play-centered VideoSpeed" controls preload="auto" width="1200" height="550"
+        poster="https://tse2.mm.bing.net/th?id=OIP.fy9v0WjvXrB2GIECMWULIAHaFj&pid=Api" data-setup="{}">
+        <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+        <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm">
+        <source src="http://vjs.zencdn.net/v/oceans.ogv" type="video/ogg">
+        <p class="vjs-no-js">
+            要查看此视频，请启用JavaScript，并考虑升级到web浏览器
+            <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+        </p>
+    </video>
+    <script>
+        require(['pfinaljs'], function (pfinaljs) {
+            pfinaljs.video('my-video', function (video) {
+                video.width(1000);
+            })
+        })
+    </script>
+</body>
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+</html>
 
-## License
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- 后台登录页:
+
+![](/public/images/login.png)
+
+- 后台主页:
+
+![](/public/images/main.png)
+
+---
+
+项目学习内容:
+
+主要使用了视频切片上传,代码如下:
+
+```javascript
+var page = {
+            arr: [],
+            init: function (callback) {
+                $("#file").change($.proxy(this.upload, this, callback));
+            },
+            upload: function (callback) {
+                var file = $("#file")[0].files[0], //文件对象
+                    name = file.name, //文件名
+                    size = file.size, //总大小
+                    succeed = 0;
+                var shardSize = 2 * 1024 * 1024, //以2MB为一个分片
+                    shardCount = Math.ceil(size / shardSize); //总片数
+                var arr = [];
+                for (var i = 0; i < shardCount; ++i) {
+                    //计算每一片的起始与结束位置
+                    var start = i * shardSize,
+                        end = Math.min(size, start + shardSize);
+
+                    //构造一个表单，FormData是HTML5新增的
+                    var form = new FormData();
+                    form.append("data", file.slice(start, end)); //slice方法用于切出文件的一部分
+                    form.append("name", name);
+                    form.append("total", shardCount); //总片数
+                    form.append("index", i + 1); //当前是第几片
+                    form.append("_token", "{{csrf_token()}}");
+                    //Ajax提交
+                    $.ajax({
+                        url: '{{url('admin/course/video')}}',
+                        type: "POST",
+                        data: form,
+                        async: false, //异步
+                        processData: false, //很重要，告诉jquery不要对form进行处理
+                        contentType: false, //很重要，指定为false才能形成正确的Content-Type
+                        success: function (res) {
+                            ++succeed
+                            arr.push(res);
+                        }
+                    });
+                }
+                callback && callback(arr)
+            }
+
+        };
+```
+
+后端代码:
+
+```php
+ public function upload_section(Request $request, $prefix = '/uploads')
+    {
+        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+        header("Cache-Control: no-store, no-cache, must-revalidate");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+
+        $findex = $request->input('index');
+        $ftotal = $request->input('total');
+        $fdata = $_FILES['data'];
+        $fname = mb_convert_encoding($request->input('name'), "gbk", "utf-8");
+        $path = $prefix;
+        $dir = $path . "/video/";
+        $save = $dir . $fname;
+        if (!file_exists(public_path($dir))) {
+            mkdir(public_path($dir), 0777, true);
+        }
+        $temp = fopen($fdata["tmp_name"], "r+");
+        $filedata = fread($temp, filesize($fdata["tmp_name"]));
+        if (file_exists(public_path($dir . "/" . $findex . ".tmp"))) unlink(public_path($dir . "/" . $findex . ".tmp"));
+        $tempFile = fopen(public_path($dir . "/" . $findex . ".tmp"), "w+");
+        //var_dump($tempFile);
+        fwrite($tempFile, $filedata);
+        fclose($tempFile);
+        fclose($temp);
+
+        @set_time_limit(5 * 60);
+
+        //if (file_exists($save)) @unlink($save);
+        for($i=1;$i<=$ftotal;$i++)
+        {
+            $readData = @fopen(public_path($dir."/".$i.".tmp"),"r+");
+            $writeData = @fread($readData,filesize(public_path($dir."/".$i.".tmp")));
+            //var_dump($writeData);
+            $newFile = @fopen(public_path($save),"a+");
+            fwrite($newFile,$writeData);
+            if($newFile) fclose($newFile);
+            if($readData) fclose($readData);
+            @unlink(public_path($dir."/".$i.".tmp"));
+        }
+        return array("status" => "success", "url" => mb_convert_encoding($save, 'utf-8', 'gbk'));
+    }
+
+
+```

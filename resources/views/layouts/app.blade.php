@@ -9,17 +9,18 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script>
         window.pfinaljs = {};
-        window.pfinaljs.base = 'modules/pfinaljs';
+        window.pfinaljs.base = '{{asset('pfinaljs')}}';
+        window.pfinaljs.base_url = '{{url('pfinaljs')}}';
     </script>
-    <script src="modules/pfinaljs/require.js"></script>
-    <script src="modules/pfinaljs/config.js"></script>
+    <script src="/pfinaljs/require.js"></script>
+    <script src="/pfinaljs/config.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-inverse">
     <a class="navbar-brand" href="#">Title</a>
     <ul class="nav navbar-nav">
         <li class="active">
-            <a href="#"><i class="fa fa fa-video-camera fa-lg"></i> 课程列表</a>
+            <a href="{{url('/')}}"><i class="fa fa fa-video-camera fa-lg"></i> 课程列表</a>
         </li>
         <li>
             <a href="#"> <i class="fa fa-user-circle fa-lg"></i> 关于我们</a>
@@ -33,7 +34,5 @@
     </div>
 </section>
 </body>
-<script>
-    require(['pfinaljs','bootstrap'])
-</script>
+
 </html>
