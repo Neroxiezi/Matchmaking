@@ -11,14 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
 
 /************* 公共路由 **************/
-/*Route::post('upload','UploadController@store');*/
-
-
 Route::get('admin/login','Admin\LoginController@showLoginForm');
 Route::get('admin/logout','Admin\LoginController@logout');
 Route::post('admin/login','Admin\LoginController@LoginIng');

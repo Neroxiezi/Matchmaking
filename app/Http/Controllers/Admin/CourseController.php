@@ -25,8 +25,8 @@ class CourseController extends Controller
 
     public function index()
     {
-        //echo public_path() . DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR . "video";exit;
-        return view('admin.course-list');
+        $course_list = $this->course->paginate(15);
+        return view('admin.course-list',compact('course_list'));
     }
 
 

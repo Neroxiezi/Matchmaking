@@ -28,26 +28,32 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>标签名</th>
+                <th>课程名</th>
+                <th>标签</th>
+                <th>封面</th>
+                <th>查看视频</th>
                 <th>添加时间</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            {{--@if(count($tag_list)>0)--}}
-                {{--@foreach($tag_list as $item)--}}
-                    {{--<tr>--}}
-                        {{--<td>{{$item->id}}</td>--}}
-                        {{--<td>{{$item->name}}</td>--}}
-                        {{--<td>{{$item->created_at}}</td>--}}
-                        {{--<td>--}}
-                            {{--<a onclick="x_admin_show('编辑标签','{{url('admin/tag/'.$item->id.'/edit')}}','60%','30%')"><i--}}
-                                        {{--class="fa fa-adjust"></i> 编辑</a>--}}
-                            {{--<a onclick="tag_del(this,'{{$item->id}}')">删除</a>--}}
-                        {{--</td>--}}
-                    {{--</tr>--}}
-                {{--@endforeach--}}
-            {{--@endif--}}
+            @if(count($course_list)>0)
+                @foreach($course_list as $item)
+                    <tr>
+                        <td>{{$item->id}}</td>
+                        <td>{{$item->title}}</td>
+                        <td><label class="layui-btn layui-btn-xs">{{$item->tag->name}}</label></td>
+                        <td><img src="{{$item->img}}" alt="" style="width:50px;height:50px;"></td>
+                        <td>
+                            <button class="layui-btn layui-btn-primary layui-btn-sm">查看</button>
+                        </td>
+                        <td>{{$item->created_at}}</td>
+                        <td>
+                            <a onclick="tag_del(this,'{{$item->id}}')">删除</a>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
             </tbody>
         </table>
     </div>
